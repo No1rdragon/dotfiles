@@ -1,0 +1,16 @@
+#!/bin/sh
+
+#Useful directories
+alias home="cd ~/"
+alias root="cd /"
+
+#Edit important files
+alias bspwmrc="vim ~/.config/bspwm/bspwmrc"
+alias sxhkdrc="vim ~/.config/sxhkd/sxhkdrc"
+alias polybarc="vim ~/.config/polybar/config.ini"
+alias zshrc="vim ~/.zshrc" 
+
+#Some system commands
+alias update="sudo pacman -Syu"
+alias myip="curl ipinfo.io/ip"
+alias weather="curl wttr.in"

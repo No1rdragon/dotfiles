@@ -1,0 +1,67 @@
+#! /bin/sh
+
+sxhkd &
+
+FOREGROUND=$(xrdb -query | grep 'foreground:'| awk '{print $NF}')
+BACKGROUND=$(xrdb -query | grep 'background:'| awk '{print $NF}')
+ACCENT=$(xrdb -query | grep 'accent:'| awk '{print $NF}')
+
+bspc monitor HDMI-0 -d 1 2 3 4 5 6 7 
+bspc monitor DVI-I-1 -d 8 9 10
+
+bspc config border_width 2
+bspc config border_radius 0   
+bspc config window_gap 15
+
+bspc config normal_border_color     "$BACKGROUND"
+bspc config focused_border_color    "$ACCENT"
+bspc config presel_feedback_color   "$BACKGROUND"
+
+bspc config top_padding 45
+bspc config bottom_padding 55
+bspc config left_padding 45
+bspc config right_padding 45
+
+bspc config split_ratio          0.5
+bspc config borderless_monocle   false
+bspc config gapless_monocle      false
+bspc config focus_follows_pointer true
+
+#. "${HOME}/.cache/wal/colors.sh"
+
+# Set the border colors.
+#bspc config normal_border_color "$color1"
+#bspc config active_border_color "$color2"
+#bspc config focused_border_color "$color15"
+# Use the line below if you are on bspwm >= 0.9.4
+#bspc config presel_feedback_color "$color1"
+
+bspc rule -a "jetbrains-idea-ce" state=floating
+bspc rule -a "Nightly" desktop=^2
+bspc rule -a "Spotify" desktop=^9
+bspc rule -a "discord" desktop=^9
+bspc rule -a "Virt-manager" desktop=^8
+
+#Autostart
+#nvidia-settings --assign CurrentMetaMode="DPY-1: nvidia-auto-select +0+0 {ForceCompositionPipeline=On}, DPY-2: nvidia-auto-select +3840+0 {ForceCompositionPipeline=On}"
+
+#Display stuff
+xrandr --output DVI-I-0 --off --output DVI-I-1 --mode 1600x900 --pos 1920x180 --rotate normal --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal
+#bspc monitor HDMI-0 -s DVI-I-1
+picom --vsync -b &
+
+#Rice
+feh --bg-scale ~/background.jpg
+xrdb $HOME/.Xresources
+$HOME/.config/polybar/launch.sh &
+
+#Programs
+firefox-nightly &
+spotify &
+blockify &
+discord &
+razer-cli -a &
+dunst &
+
+#Locker
+xautolock -time 60 -locker slock -detectsleep
